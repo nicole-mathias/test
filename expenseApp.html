@@ -1,0 +1,164 @@
+<html>
+    <head>
+
+        <title>Personal Expense</title>
+
+        <style>
+            body {
+                display : flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items:center;
+                height: 100vh;
+            }
+        
+        </style>
+  
+    </head>
+
+    <body>
+
+        <!--this will print your total Expense -->
+        <h1 id = "headingTotal"></h1>
+        
+    
+        <input id = "inputAmount" type ="text">
+        <input id = "inputDesc" type = "text">
+
+
+        <button id = "btnAddExpense"> + </button>
+
+        <div id = "expenseTable"></div>
+
+        
+
+
+        <script>
+
+            //get heading element from html code
+            const headingEl = document.querySelector("#headingTotal");
+
+            // get the reference to description element from html code
+            const inputDescEl = document.querySelector("#inputDesc");
+
+
+            // refernce to input amount
+            const inputElement = document.querySelector("#inputAmount");
+
+            // get the refernce of table from html
+            const expenseTableEl = document.querySelector("#expenseTable");
+            
+
+            
+
+            // init value of expense at 0
+            let totalExpense = 0;
+            
+            
+            //set the heading element to totalExpense
+            headingEl.textContent = totalExpense;
+
+
+            // allExpenses at one place (creating array)
+            const allExpenses = [];
+
+
+            //onButtonClick add inputAmount and totalExpense
+            function addExpenseToTotal(){
+
+                // creating an empty object, we will be adding stuff like amount and description which we will later psuh to the array for storage
+                
+                const expenseItem = {};
+
+                // read value from inputDesc
+                const textDesc = inputDescEl.value;
+                
+
+                // read value from inputAmount
+                const textAmount = inputElement.value;
+                //console.log({textAmount});
+
+                //console.log({textDesc, textAmount});
+
+                // convert it to a number
+                const expense = parseInt(textAmount, 10);
+                //console.log({expense});
+
+                // put amount and description in the object
+                expenseItem.desc = textDesc;
+                expenseItem.amount = expense;
+
+                //console.log({expenseItem})
+
+                // add object entry into the array
+                allExpenses.push(expenseItem);
+
+                
+                // we are using clear so that, the array table doesnt print again and again, but it just prints it once with updates in the console.
+                //console.clear();
+                //console.table(allExpenses);
+
+
+
+                // add the value to totalExpense
+                totalExpense = totalExpense + expense;
+                //console.log({totalExpense});
+
+                //set the heading element to totalExpense
+
+                const someText = `Total : ${totalExpense}`;
+
+                headingEl.textContent = someText;
+
+                // show the table here
+                // const data1 = allExpenses[0];
+                // const data2 = allExpenses[1];
+
+                // const data1Text = ` ${data1.amount} ::  ${data1.desc}`;
+                // const data2Text = ` ${data2.amount} ::  ${data2.desc}`;
+
+                // //creating a table
+                // const tableText = `
+                //     <div> ${data1Text} </div>
+                //     <div> ${data2Text} </div>
+                // `
+
+
+                const allExpenseHTML = allExpenses.map(expense => {
+                    return `<div> ${expense.amount} :: ${expense.desc} </div>`
+
+                });
+
+                //the above stuff is alone giving the answer, but we want it to be in one text, also the baove returns an array of string
+
+
+                // use join
+                // here join takes array of strings and returns a string
+                // double inverted quatoes in join("") tells that we want to obtain a string, and you leave () blank it will simply do a join using commas
+                const joinedAllExpenseHTML = allExpenseHTML.join("");
+
+                console.log(joinedAllExpenseHTML);
+
+
+                //expenseTableEl.textContent = tableText;
+                expenseTableEl.innerHTML = joinedAllExpenseHTML;
+
+
+
+            }
+  
+
+            // get the button element
+            const element = document.querySelector("#btnAddExpense");
+                
+
+
+    
+            //listen to click event
+            element.addEventListener("click", addExpenseToTotal, false);
+   
+    
+        </script>
+  
+    </body>
+</html>
